@@ -9,14 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var inputUnit = "meters"
+    @State private var inputValue = ""
     @State private var outputUnit = "feet"
     let units = ["meters", "kilometers", "feet", "yards", "miles"]
     
     var body: some View {
         NavigationStack {
             Form {
-                
                 Section("Input unit") {
+                    TextField("Input", text: $inputValue)
                     Picker("Input unit", selection: $inputUnit) {
                         ForEach(units, id: \.self) {
                             Text($0)
