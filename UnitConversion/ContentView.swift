@@ -14,6 +14,25 @@ struct ContentView: View {
     @FocusState private var inputFocused: Bool
     let units = ["meters", "kilometers", "feet", "yards", "miles"]
     
+    let conversionValuesFromMeters = [
+        "meters": 1.0,
+        "kilometers": 0.001,
+        "feet": 3.28084,
+        "yard": 1.09361,
+        "miles": 0.000621371
+    ]
+    
+    var unitConversion: Double {
+        guard let inputDouble = Double(inputValue),
+              let getMeters = conversionValuesFromMeters[inputUnit],
+              let getOutputUnit = conversionValuesFromMeters[outputUnit] else {
+            return 0.0
+        }
+        let inputInMeters = inputDouble / getMeters
+        let convertedOutput = inputInMeters * getOutputUnit
+        return convertedOutput
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -36,6 +55,10 @@ struct ContentView: View {
                         }
                     }
                     .pickerStyle(.segmented)
+                }
+                
+                Section("Converted Value") {
+                    Text("\(unitConversion, specifier: "%.2f") \(outputUnit)")
                 }
                 
             }
